@@ -1,0 +1,12 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    form_themes: ['bootstrap_5_layout.html.twig']
+
+when@test:
+    twig:
+        strict_variables: true
+        default_path: '%kernel.project_dir%/templates'
+        date:
+            format: 'F j, Y H:i'
+        paths:
+            '%kernel.project_dir%/templates': templates

@@ -1,0 +1,55 @@
+version: '3.5'
+services:
+
+    nginx:
+        image: nginx:latest
+        ports:
+            - 80:80
+        volumes:
+            - ./:/var/www
+            - ./_docker/nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - app
+        container_name: todo-list_nginx
+
+    app:
+        build:
+            context: ./
+            dockerfile: _docker/app/Dockerfile
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - db
+        container_name: todo-list_app
+
+    db:
+        image: mysql:8
+        restart: always
+        volumes:
+            - db:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: todo-list_db
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - 3309:3306
+        command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_use_native_aio=0
+        container_name: todo-list_db
+
+
+    database:
+      image: postgres:${POSTGRES_VERSION:-15}-alpine
+      environment:
+        POSTGRES_DB: ${POSTGRES_DB:-app}
+        # You should definitely change the password in production
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+        POSTGRES_USER: ${POSTGRES_USER:-app}
+      volumes:
+        - database_data:/var/lib/postgresql/data:rw
+        # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+        # - ./docker/db/data:/var/lib/postgresql/data:rw
+  ###< doctrine/doctrine-bundle ###
+volumes:
+    db:
+###> doctrine/doctrine-bundle ###
+    database_data:
+###< doctrine/doctrine-bundle ###

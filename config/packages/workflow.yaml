@@ -1,0 +1,21 @@
+framework:
+    workflows:
+        task:
+            type: state_machine
+            marking_store:
+                type: 'method'
+                property: 'statusAsString'
+            supports:
+                - App\Entity\Task
+            initial_marking: new
+            places:
+                - new
+                - done
+                - rejected
+            transitions:
+                to_done:
+                    from: new
+                    to: done
+                to_rejected:
+                    from: new
+                    to: rejected

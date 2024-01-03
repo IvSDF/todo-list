@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Task Show Controller{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_task') }}">Show all tasks</a>
+    <h2> Task #{{ task.id }}</h2>
+    <p>{{ task.title }} <b>{{ task.status.value }}</b></p>
+    <p>Created at {{ task.createdAt|format_datetime() }}</p>
+
+    {{ form(task_form) }}
+{% endblock %}
