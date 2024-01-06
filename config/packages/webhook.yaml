@@ -1,0 +1,5 @@
+framework:
+  webhook:
+    routing:
+      telegram:
+        service: 'App\Webhook\TelegramWebhookParser'
